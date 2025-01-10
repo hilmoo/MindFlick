@@ -29,10 +29,10 @@ Visit [oop.hilmo.dev](https://oop.hilmo.dev)
 services:
     mindflick:
         container_name: mindflick
-        image: ghcr.io/hilmoo/mindflick@sha256:edd989445496b554d0cf56451a6656ab29caa559b86df9d9f1a06fca710438e3
+        image: ghcr.io/hilmoo/mindflick:master
         restart: unless-stopped
         ports:
-        - 100.124.226.119:12024:8080
+        - 8080:8080
         env_file:
         - .env
         depends_on:
