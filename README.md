@@ -99,22 +99,3 @@ services:
    ```bash
    npm run dev
    ```
-
-### Running in Docker
-
-1. Create or update your `.env` file with the necessary environment variables. You can check the `.env.example` file for
-   a template.
-2. Apply the database migrations:
-   ```bash
-   export DATABASE_URL="Host=<YOUR_POSTGRES_HOST>;Database=<YOUR_POSTGRES_DB_NAME>;Username=<YOUR_POSTGRES_USER>;Password=<YOUR_POSTGRES_PASSWORD>"
-   dotnet ef migrations add InitialCreate
-   dotnet ef database update
-   ```
-3. Build Docker
-   ```bash
-   docker build -t flashcard-app .
-   ```
-4. Run Docker
-   ```bash
-   docker run --env-file ./.env -d -p 8080:8080 --name flashcard-container flashcard-app
-   ```
