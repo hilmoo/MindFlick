@@ -27,6 +27,22 @@ Visit [oop.hilmo.dev](https://oop.hilmo.dev)
 **This compose file does not include database migration**
 ```yaml
 services:
+    mindflick-db:
+        container_name: mindflick-db
+        image: postgres:16-alpine
+        restart: unless-stopped
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB_NAME} -U ${POSTGRES_USER}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
+        environment:
+        - POSTGRES_USER=${POSTGRES_USER}
+        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        - POSTGRES_DB=${POSTGRES_DB_NAME}
+        volumes:
+        - ./database:/var/lib/postgresql/data
     mindflick:
         container_name: mindflick
         image: ghcr.io/hilmoo/mindflick:master
@@ -38,22 +54,6 @@ services:
         depends_on:
             mindflick-db:
                 condition: service_healthy
-    mindflick-db:
-        container_name: mindflick-db
-        image: postgres:16-alpine
-        restart: unless-stopped
-        healthcheck:
-          test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB_NAME} -U $${POSTGRES_USER}"]
-          start_period: 20s
-          interval: 30s
-          retries: 5
-          timeout: 5s
-        environment:
-        - POSTGRES_USER=${POSTGRES_USER}
-        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        - POSTGRES_DB=${POSTGRES_DB_NAME}
-        volumes:
-        - ./database:/var/lib/postgresql/data
 ```
 
 ### Running Locally
