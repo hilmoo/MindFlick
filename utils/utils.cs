@@ -7,43 +7,17 @@ public static class AuthenticationConstants
 
 public static class PostgresConstants
 {
-    private static readonly string IsUsingServer = Environment.GetEnvironmentVariable("POSTGRES_USING_SERVER")
-                                                   ?? throw new InvalidOperationException(
-                                                       "POSTGRES_USING_SERVER environment variable is not set.");
-
     public static readonly string ConnectionString;
 
     static PostgresConstants()
     {
-        switch (IsUsingServer)
-        {
-            case "true":
-            {
-                var database = GetEnvironmentVariableOrThrow("POSTGRES_DB_NAME");
-                var password = GetEnvironmentVariableOrThrow("POSTGRES_PASSWORD");
-                var userId = GetEnvironmentVariableOrThrow("POSTGRES_USER_ID");
-                var server = GetEnvironmentVariableOrThrow("POSTGRES_SERVER");
-                var port = GetEnvironmentVariableOrThrow("POSTGRES_PORT");
+        var host = GetEnvironmentVariableOrThrow("POSTGRES_HOST");
+        var database = GetEnvironmentVariableOrThrow("POSTGRES_DB_NAME");
+        var username = GetEnvironmentVariableOrThrow("POSTGRES_USER");
+        var password = GetEnvironmentVariableOrThrow("POSTGRES_PASSWORD");
 
-                ConnectionString =
-                    $"User Id={userId};Password={password};Server={server};Port={port};Database={database};Include Error Detail=True";
-                break;
-            }
-            case "false":
-            {
-                var host = GetEnvironmentVariableOrThrow("POSTGRES_HOST");
-                var database = GetEnvironmentVariableOrThrow("POSTGRES_DB_NAME");
-                var username = GetEnvironmentVariableOrThrow("POSTGRES_USER");
-                var password = GetEnvironmentVariableOrThrow("POSTGRES_PASSWORD");
-
-                ConnectionString =
-                    $"Host={host};Username={username};Password={password};Database={database}";
-                break;
-            }
-            default:
-                throw new InvalidOperationException(
-                    "POSTGRES_USING_SERVER environment variable must be 'true' or 'false'.");
-        }
+        ConnectionString =
+            $"Host={host};Username={username};Password={password};Database={database}";
     }
 
     private static string GetEnvironmentVariableOrThrow(string variableName)
