@@ -12,7 +12,7 @@ An over-engineered flashcard platform designed to help users better remember spe
 
 ## Access the Platform
 
-Visit [oop.hilmo.dev](https://oop.hilmo.dev)
+Visit [oop.hilmo.dev](https://mindflick.hilmo.dev)
 
 ## How to Set Up and Build
 
