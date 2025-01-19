@@ -12,7 +12,7 @@ An over-engineered flashcard platform designed to help users better remember spe
 
 ## Access the Platform
 
-Visit [oop.hilmo.dev](https://oop.hilmo.dev)
+Visit [mindflick.hilmo.dev](https://mindflick.hilmo.dev)
 
 ## How to Set Up and Build
 
@@ -27,35 +27,33 @@ Visit [oop.hilmo.dev](https://oop.hilmo.dev)
 **This compose file does not include database migration**
 ```yaml
 services:
-    mindflick:
-        container_name: mindflick
-        image: ghcr.io/hilmoo/mindflick@sha256:edd989445496b554d0cf56451a6656ab29caa559b86df9d9f1a06fca710438e3
-        restart: unless-stopped
-        ports:
-        - 100.124.226.119:12024:8080
-        env_file:
-        - .env
-        depends_on:
-        mindflick-db:
-            condition: service_healthy
     mindflick-db:
         container_name: mindflick-db
         image: postgres:16-alpine
         restart: unless-stopped
         healthcheck:
-        test:
-            - CMD-SHELL
-            - pg_isready -d rmelokal -U postgres
-        start_period: 20s
-        interval: 30s
-        retries: 5
-        timeout: 5s
+          test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB_NAME} -U ${POSTGRES_USER}"]
+          start_period: 20s
+          interval: 30s
+          retries: 5
+          timeout: 5s
         environment:
         - POSTGRES_USER=${POSTGRES_USER}
         - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
         - POSTGRES_DB=${POSTGRES_DB_NAME}
         volumes:
         - ./database:/var/lib/postgresql/data
+    mindflick:
+        container_name: mindflick
+        image: ghcr.io/hilmoo/mindflick:master
+        restart: unless-stopped
+        ports:
+        - 8080:8080
+        env_file:
+        - .env
+        depends_on:
+            mindflick-db:
+                condition: service_healthy
 ```
 
 ### Running Locally
@@ -98,23 +96,4 @@ services:
 6. Start the development server:
    ```bash
    npm run dev
-   ```
-
-### Running in Docker
-
-1. Create or update your `.env` file with the necessary environment variables. You can check the `.env.example` file for
-   a template.
-2. Apply the database migrations:
-   ```bash
-   export DATABASE_URL="Host=<YOUR_POSTGRES_HOST>;Database=<YOUR_POSTGRES_DB_NAME>;Username=<YOUR_POSTGRES_USER>;Password=<YOUR_POSTGRES_PASSWORD>"
-   dotnet ef migrations add InitialCreate
-   dotnet ef database update
-   ```
-3. Build Docker
-   ```bash
-   docker build -t flashcard-app .
-   ```
-4. Run Docker
-   ```bash
-   docker run --env-file ./.env -d -p 8080:8080 --name flashcard-container flashcard-app
    ```
