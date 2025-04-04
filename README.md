@@ -2,9 +2,9 @@
 
 An over-engineered flashcard platform designed to help users better remember specific concepts and problems.
 
-<div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0;">
-<iframe src="https://www.youtube-nocookie.com/embed/rAvd1oqCHSI?si=ho4s0wmIa7wwx98-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-</div>
+## Demo
+
+[![Demo Video](https://img.youtube.com/vi/rAvd1oqCHSI/maxresdefault.jpg)](https://www.youtube.com/embed/rAvd1oqCHSI)
 
 ## Features:
 
