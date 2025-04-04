@@ -10,10 +10,6 @@ An over-engineered flashcard platform designed to help users better remember spe
 - Free to Use
 - Markdown Support
 
-## Access the Platform
-
-Visit [mindflick.hilmo.dev](https://mindflick.hilmo.dev)
-
 ## How to Set Up and Build
 
 ### Prerequisites
