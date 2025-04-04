@@ -2,6 +2,10 @@
 
 An over-engineered flashcard platform designed to help users better remember specific concepts and problems.
 
+<div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0;">
+<iframe src="https://www.youtube-nocookie.com/embed/rAvd1oqCHSI?si=ho4s0wmIa7wwx98-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+</div>
+
 ## Features:
 
 - Bookmark Flashcards
@@ -21,35 +25,37 @@ An over-engineered flashcard platform designed to help users better remember spe
 ### Docker Compose
 
 **This compose file does not include database migration**
+
 ```yaml
 services:
-    mindflick-db:
-        container_name: mindflick-db
-        image: postgres:16-alpine
-        restart: unless-stopped
-        healthcheck:
-          test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB_NAME} -U ${POSTGRES_USER}"]
-          start_period: 20s
-          interval: 30s
-          retries: 5
-          timeout: 5s
-        environment:
-        - POSTGRES_USER=${POSTGRES_USER}
-        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        - POSTGRES_DB=${POSTGRES_DB_NAME}
-        volumes:
-        - ./database:/var/lib/postgresql/data
-    mindflick:
-        container_name: mindflick
-        image: ghcr.io/hilmoo/mindflick:master
-        restart: unless-stopped
-        ports:
-        - 8080:8080
-        env_file:
-        - .env
-        depends_on:
-            mindflick-db:
-                condition: service_healthy
+  mindflick-db:
+    container_name: mindflick-db
+    image: postgres:16-alpine
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB_NAME} -U ${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB_NAME}
+    volumes:
+      - ./database:/var/lib/postgresql/data
+  mindflick:
+    container_name: mindflick
+    image: ghcr.io/hilmoo/mindflick:master
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
+    depends_on:
+      mindflick-db:
+        condition: service_healthy
 ```
 
 ### Running Locally
